@@ -1,4 +1,6 @@
-﻿namespace Calculator
+﻿using System;
+
+namespace Calculator
 {
 	public class MathExpressionProcessor
 	{
@@ -6,7 +8,7 @@
 		{
 			var i = startOfNumberRecord;
 			var number = string.Empty;
-			while (!IsDelimeter(inputString[i]) && !IsOperator(inputString[i]))
+			while (Char.IsDigit(inputString[i]) || IsDecimalDelimeter(inputString[i]))
 			{
 				number += inputString[i];
 				i++;
@@ -17,6 +19,11 @@
 			return number;
 		}
 
+		public bool IsDecimalDelimeter(char c)
+		{
+			return ".,".Contains(c.ToString());
+		}
+
 		public bool IsOperator(char c)
 		{
 			return "+-*/()".Contains(c.ToString());
@@ -24,7 +31,7 @@
 
 		public bool IsDelimeter(char c)
 		{
-			return c.Equals(' ');
+			return " =".Contains(c.ToString());
 		}
 
 		public int GetPriority(char c)

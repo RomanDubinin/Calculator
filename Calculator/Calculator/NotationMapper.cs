@@ -27,16 +27,15 @@ namespace Calculator
 				if (ExpressionProcessor.IsDelimeter(inputString[i]))
 					continue;
 
-				if (Char.IsDigit(inputString[i]))
+				if (Char.IsDigit(inputString[i]) || ExpressionProcessor.IsDecimalDelimeter(inputString[i]))
 				{
 					var value = ExpressionProcessor.GetFirstOccurrenceOfNumber(inputString, i);
 					output += value + " ";
 
 					i += value.Length - 1;
-					continue;
 				}
 
-				if (ExpressionProcessor.IsOperator(inputString[i]))
+				else if (ExpressionProcessor.IsOperator(inputString[i]))
 				{
 					if (inputString[i] == '(')
 						stack.Push(inputString[i]);
@@ -66,6 +65,11 @@ namespace Calculator
 						stack.Push(inputString[i]);
 					}
 					
+				}
+
+				else
+				{
+					throw new ArgumentException(String.Format("Unknown character {0} in expression", inputString[i]));
 				}
 			}
 

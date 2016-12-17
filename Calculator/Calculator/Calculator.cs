@@ -26,9 +26,10 @@ namespace Calculator
 				if (ExpressionProcessor.IsDelimeter(inputString[i]))
 					continue;
 
-				if (char.IsDigit(inputString[i]))
+				if (char.IsDigit(inputString[i]) || ExpressionProcessor.IsDecimalDelimeter(inputString[i]))
 				{
 					var value = ExpressionProcessor.GetFirstOccurrenceOfNumber(inputString, i);
+					value = value.Replace(",", ".");
 					stack.Push(double.Parse(value));
 					i += value.Length - 1;
 				}

@@ -133,7 +133,36 @@ namespace CalculatorTests
 			var actualOutput2 = calculator.CalculateFromReversePolishNotation(inputString2);
 
 			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput1) < eps);
-			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput1) < eps);
+			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput2) < eps);
 		}
-	}
+
+		[TestMethod]
+		public void DoubleNotationTest1()
+		{
+			var expressionProcessor = new MathExpressionProcessor();
+			var calculator = new Calculator.Calculator(expressionProcessor);
+			var inputString = ".1";
+			
+			var expectedOutput = 0.1;
+			var actualOutput = calculator.CalculateFromReversePolishNotation(inputString);
+
+			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput) < eps);
+		}
+
+		[TestMethod]
+		public void UnknownCharacterTest1()
+		{
+			var expressionProcessor = new MathExpressionProcessor();
+			var mapper = new NotationMapper(expressionProcessor);
+			var inputString = "5^2";
+			
+
+			try
+			{
+				mapper.ReversePolishNotation(inputString);
+				Assert.Fail("Must be exception!");
+			}
+			catch (ArgumentException) { }
+		}
+    }
 }
