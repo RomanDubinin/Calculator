@@ -5,11 +5,11 @@ namespace Calculator
 {
 	public class Calculator
 	{
-		public NotationMapper NotationMapper;
+		private readonly MathExpressionProcessor ExpressionProcessor;
 
-		public Calculator(NotationMapper notationMapper)
+		public Calculator(MathExpressionProcessor expressionProcessor)
 		{
-			NotationMapper = notationMapper;
+			ExpressionProcessor = expressionProcessor;
 		}
 
 		/// <summary>
@@ -23,17 +23,17 @@ namespace Calculator
 
 			for (int i = 0; i < inputString.Length; i++)
 			{
-				if (NotationMapper.IsDelimeter(inputString[i]))
+				if (ExpressionProcessor.IsDelimeter(inputString[i]))
 					continue;
 
 				if (char.IsDigit(inputString[i]))
 				{
-					var value = NotationMapper.GetFirstOccurrenceOfNumber(inputString, i);
+					var value = ExpressionProcessor.GetFirstOccurrenceOfNumber(inputString, i);
 					stack.Push(double.Parse(value));
 					i += value.Length - 1;
 				}
 
-				else if (NotationMapper.IsOperator(inputString[i]))
+				else if (ExpressionProcessor.IsOperator(inputString[i]))
 				{
 					double operand1;
 					double operand2;
