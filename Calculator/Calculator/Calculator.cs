@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Calculator
 {
@@ -26,10 +27,10 @@ namespace Calculator
 				if (ExpressionProcessor.IsDelimeter(inputString[i]))
 					continue;
 
-				if (char.IsDigit(inputString[i]) || ExpressionProcessor.IsDecimalDelimeter(inputString[i]))
+				if (ExpressionProcessor.IsPartOfDecimalNumber(inputString[i]))
 				{
-					var value = ExpressionProcessor.GetFirstOccurrenceOfNumber(inputString, i);
-					value = value.Replace(",", ".");
+					var value = ExpressionProcessor.GetFirstOccurrenceOfOperand(inputString, i);
+
 					stack.Push(double.Parse(value));
 					i += value.Length - 1;
 				}

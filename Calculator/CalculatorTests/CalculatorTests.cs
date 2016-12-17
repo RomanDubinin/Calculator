@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Calculator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -7,7 +8,8 @@ namespace CalculatorTests
 	[TestClass]
 	public class CalculatorTests
 	{
-		private readonly double eps = 10e-5;
+		private const double Eps = 10e-5;
+		private readonly string Dot = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
 		//стоит учитывать, что перевод в обратную польскую неоднозначен
 		[TestMethod]
@@ -39,8 +41,8 @@ namespace CalculatorTests
 		{
 			var expressionProcessor = new MathExpressionProcessor();
 			var mapper = new NotationMapper(expressionProcessor);
-			var inputString = "( 5.3+2.7) *3.12";
-			var expectedOutput = "5.3 2.7 + 3.12 *";
+			var inputString = $"( 5{Dot}3+2{Dot}7) *3{Dot}12";
+			var expectedOutput = $"5{Dot}3 2{Dot}7 + 3{Dot}12 *";
 
 			var actualOutput = mapper.ReversePolishNotation(inputString);
 			Assert.AreEqual(expectedOutput, actualOutput.Trim());
@@ -55,7 +57,19 @@ namespace CalculatorTests
 			var expectedOutput = 21;
 
 			var actualOutput = calculator.CalculateFromReversePolishNotation(inputString);
-			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput) < eps);
+			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput) < Eps);
+		}
+
+		[TestMethod]
+		public void CalculateFromReversePolishNotationTest2()
+		{
+			var expressionProcessor = new MathExpressionProcessor();
+			var calculator = new Calculator.Calculator(expressionProcessor);
+			var inputString = $"5{Dot}4 23{Dot}6 +";
+			var expectedOutput = 29;
+
+			var actualOutput = calculator.CalculateFromReversePolishNotation(inputString);
+			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput) < Eps);
 		}
 
 		[TestMethod]
@@ -121,22 +135,6 @@ namespace CalculatorTests
 		}
 
 		[TestMethod]
-		public void DecimalDelimeterTest1()
-		{
-			var expressionProcessor = new MathExpressionProcessor();
-			var calculator = new Calculator.Calculator(expressionProcessor);
-			var inputString1 = "1.1";
-			var inputString2 = "1,1";
-
-			var expectedOutput = 1.1;
-			var actualOutput1 = calculator.CalculateFromReversePolishNotation(inputString1);
-			var actualOutput2 = calculator.CalculateFromReversePolishNotation(inputString2);
-
-			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput1) < eps);
-			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput2) < eps);
-		}
-
-		[TestMethod]
 		public void DoubleNotationTest1()
 		{
 			var expressionProcessor = new MathExpressionProcessor();
@@ -146,7 +144,7 @@ namespace CalculatorTests
 			var expectedOutput = 0.1;
 			var actualOutput = calculator.CalculateFromReversePolishNotation(inputString);
 
-			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput) < eps);
+			Assert.IsTrue(Math.Abs(expectedOutput - actualOutput) < Eps);
 		}
 
 		[TestMethod]

@@ -27,9 +27,9 @@ namespace Calculator
 				if (ExpressionProcessor.IsDelimeter(inputString[i]))
 					continue;
 
-				if (Char.IsDigit(inputString[i]) || ExpressionProcessor.IsDecimalDelimeter(inputString[i]))
+				if (ExpressionProcessor.IsPartOfDecimalNumber(inputString[i]))
 				{
-					var value = ExpressionProcessor.GetFirstOccurrenceOfNumber(inputString, i);
+					var value = ExpressionProcessor.GetFirstOccurrenceOfOperand(inputString, i);
 					output += value + " ";
 
 					i += value.Length - 1;
@@ -69,7 +69,7 @@ namespace Calculator
 
 				else
 				{
-					throw new ArgumentException(String.Format("Unknown character {0} in expression", inputString[i]));
+					throw new ArgumentException($"Unknown character {inputString[i]} in expression");
 				}
 			}
 

@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Calculator
 {
 	public class MathExpressionProcessor
 	{
-		public string GetFirstOccurrenceOfNumber(string inputString, int startOfNumberRecord)
+		public string GetFirstOccurrenceOfOperand(string inputString, int startOfNumberRecord)
 		{
 			var i = startOfNumberRecord;
 			var number = string.Empty;
-			while (Char.IsDigit(inputString[i]) || IsDecimalDelimeter(inputString[i]))
+			while (IsPartOfDecimalNumber(inputString[i]))
 			{
 				number += inputString[i];
 				i++;
@@ -19,9 +20,10 @@ namespace Calculator
 			return number;
 		}
 
-		public bool IsDecimalDelimeter(char c)
+		public bool IsPartOfDecimalNumber(char c)
 		{
-			return ".,".Contains(c.ToString());
+			return char.IsDigit(c) || 
+				   c == Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
 		}
 
 		public bool IsOperator(char c)
