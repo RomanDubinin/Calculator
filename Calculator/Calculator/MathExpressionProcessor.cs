@@ -5,9 +5,9 @@ namespace Calculator
 {
 	public class MathExpressionProcessor
 	{
-		public string GetFirstOccurrenceOfOperand(string inputString, int startOfNumberRecord)
+		public string GetFirstOccurrenceOfOperand(string inputString, int startOfOperandRecord)
 		{
-			var i = startOfNumberRecord;
+			var i = startOfOperandRecord;
 			var number = string.Empty;
 			while (IsPartOfDecimalNumber(inputString[i]))
 			{
